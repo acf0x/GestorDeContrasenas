@@ -44,18 +44,20 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(231, 20);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Gestor de contraseñas v1.0";
+            this.label1.Text = "Gestor de contraseñas v1.1";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBoxContraseña
             // 
-            this.textBoxContraseña.Location = new System.Drawing.Point(16, 42);
+            this.textBoxContraseña.Location = new System.Drawing.Point(20, 82);
             this.textBoxContraseña.Name = "textBoxContraseña";
-            this.textBoxContraseña.Size = new System.Drawing.Size(370, 20);
+            this.textBoxContraseña.Size = new System.Drawing.Size(417, 20);
             this.textBoxContraseña.TabIndex = 1;
+            this.textBoxContraseña.TextChanged += new System.EventHandler(this.textBoxContraseña_TextChanged);
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(16, 68);
+            this.trackBar1.Location = new System.Drawing.Point(18, 36);
             this.trackBar1.Maximum = 24;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -66,19 +68,31 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(392, 68);
-            this.numericUpDown1.Maximum = new decimal(new int[] {24,0,0,0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {1,0,0,0});
+            this.numericUpDown1.Location = new System.Drawing.Point(395, 38);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            24,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(56, 20);
+            this.numericUpDown1.Size = new System.Drawing.Size(39, 20);
             this.numericUpDown1.TabIndex = 3;
-            this.numericUpDown1.Value = new decimal(new int[] {12,0,0,0});
+            this.numericUpDown1.Value = new decimal(new int[] {
+            12,
+            0,
+            0,
+            0});
             this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // checkBoxMinusculas
             // 
             this.checkBoxMinusculas.AutoSize = true;
-            this.checkBoxMinusculas.Location = new System.Drawing.Point(16, 119);
+            this.checkBoxMinusculas.Location = new System.Drawing.Point(21, 141);
             this.checkBoxMinusculas.Name = "checkBoxMinusculas";
             this.checkBoxMinusculas.Size = new System.Drawing.Size(79, 17);
             this.checkBoxMinusculas.TabIndex = 4;
@@ -88,7 +102,7 @@
             // checkBoxMayusculas
             // 
             this.checkBoxMayusculas.AutoSize = true;
-            this.checkBoxMayusculas.Location = new System.Drawing.Point(99, 119);
+            this.checkBoxMayusculas.Location = new System.Drawing.Point(104, 141);
             this.checkBoxMayusculas.Name = "checkBoxMayusculas";
             this.checkBoxMayusculas.Size = new System.Drawing.Size(82, 17);
             this.checkBoxMayusculas.TabIndex = 5;
@@ -98,7 +112,7 @@
             // checkBoxNumeros
             // 
             this.checkBoxNumeros.AutoSize = true;
-            this.checkBoxNumeros.Location = new System.Drawing.Point(189, 119);
+            this.checkBoxNumeros.Location = new System.Drawing.Point(194, 141);
             this.checkBoxNumeros.Name = "checkBoxNumeros";
             this.checkBoxNumeros.Size = new System.Drawing.Size(68, 17);
             this.checkBoxNumeros.TabIndex = 6;
@@ -108,7 +122,7 @@
             // checkBoxSimbolos
             // 
             this.checkBoxSimbolos.AutoSize = true;
-            this.checkBoxSimbolos.Location = new System.Drawing.Point(263, 119);
+            this.checkBoxSimbolos.Location = new System.Drawing.Point(268, 141);
             this.checkBoxSimbolos.Name = "checkBoxSimbolos";
             this.checkBoxSimbolos.Size = new System.Drawing.Size(70, 17);
             this.checkBoxSimbolos.TabIndex = 7;
@@ -117,7 +131,7 @@
             // 
             // buttonGenerar
             // 
-            this.buttonGenerar.Location = new System.Drawing.Point(16, 142);
+            this.buttonGenerar.Location = new System.Drawing.Point(19, 110);
             this.buttonGenerar.Name = "buttonGenerar";
             this.buttonGenerar.Size = new System.Drawing.Size(75, 23);
             this.buttonGenerar.TabIndex = 8;
@@ -127,7 +141,7 @@
             // 
             // buttonCopiar
             // 
-            this.buttonCopiar.Location = new System.Drawing.Point(97, 142);
+            this.buttonCopiar.Location = new System.Drawing.Point(100, 110);
             this.buttonCopiar.Name = "buttonCopiar";
             this.buttonCopiar.Size = new System.Drawing.Size(75, 23);
             this.buttonCopiar.TabIndex = 9;
@@ -137,7 +151,7 @@
             // 
             // buttonAnadir
             // 
-            this.buttonAnadir.Location = new System.Drawing.Point(178, 142);
+            this.buttonAnadir.Location = new System.Drawing.Point(181, 110);
             this.buttonAnadir.Name = "buttonAnadir";
             this.buttonAnadir.Size = new System.Drawing.Size(75, 23);
             this.buttonAnadir.TabIndex = 10;
@@ -147,13 +161,15 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ContraseñaColumn,
             this.TagColumn});
-            this.dataGridView1.Location = new System.Drawing.Point(16, 171);
+            this.dataGridView1.Location = new System.Drawing.Point(19, 171);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(432, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(330, 150);
             this.dataGridView1.TabIndex = 11;
             // 
             // ContraseñaColumn
@@ -169,9 +185,9 @@
             // 
             // buttonMostrar
             // 
-            this.buttonMostrar.Location = new System.Drawing.Point(259, 142);
+            this.buttonMostrar.Location = new System.Drawing.Point(366, 173);
             this.buttonMostrar.Name = "buttonMostrar";
-            this.buttonMostrar.Size = new System.Drawing.Size(75, 23);
+            this.buttonMostrar.Size = new System.Drawing.Size(77, 39);
             this.buttonMostrar.TabIndex = 12;
             this.buttonMostrar.Text = "Mostrar";
             this.buttonMostrar.UseVisualStyleBackColor = true;
@@ -180,7 +196,7 @@
             // labelGithub
             // 
             this.labelGithub.AutoSize = true;
-            this.labelGithub.Location = new System.Drawing.Point(16, 324);
+            this.labelGithub.Location = new System.Drawing.Point(18, 325);
             this.labelGithub.Name = "labelGithub";
             this.labelGithub.Size = new System.Drawing.Size(90, 13);
             this.labelGithub.TabIndex = 13;
@@ -192,11 +208,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(461, 346);
+            this.Controls.Add(this.buttonCopiar);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.labelGithub);
             this.Controls.Add(this.buttonMostrar);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.buttonAnadir);
-            this.Controls.Add(this.buttonCopiar);
             this.Controls.Add(this.buttonGenerar);
             this.Controls.Add(this.checkBoxSimbolos);
             this.Controls.Add(this.checkBoxNumeros);
@@ -207,7 +223,7 @@
             this.Controls.Add(this.textBoxContraseña);
             this.Controls.Add(this.label1);
             this.Name = "Formulario";
-            this.Text = "Gestor de contraseñas v1.0";
+            this.Text = "Gestor de contraseñas v1.1";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -228,9 +244,9 @@
         private System.Windows.Forms.Button buttonCopiar;
         private System.Windows.Forms.Button buttonAnadir;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ContraseñaColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TagColumn;
         private System.Windows.Forms.Button buttonMostrar;
         private System.Windows.Forms.Label labelGithub;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContraseñaColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TagColumn;
     }
 }

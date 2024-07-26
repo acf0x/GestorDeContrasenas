@@ -3,6 +3,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Security.Cryptography;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GestorDeContraseñas
 {
@@ -25,24 +27,84 @@ namespace GestorDeContraseñas
         private void GenerarContraseña()
         {
             int length = (int)numericUpDown1.Value;
+            string minusculas = "abcdefghijklmnopqrstuvwxyz";
+            string mayusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string numeros = "0123456789";
+            string simbolos = "!@#$%&.";
             string chars = "";
-            if (checkBoxMinusculas.Checked) chars += "abcdefghijklmnopqrstuvwxyz";
-            if (checkBoxMayusculas.Checked) chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            if (checkBoxNumeros.Checked) chars += "0123456789";
-            if (checkBoxSimbolos.Checked) chars += "!@#$%&.";
+            if (checkBoxMinusculas.Checked) chars += minusculas;
+            if (checkBoxMayusculas.Checked) chars += mayusculas;
+            if (checkBoxNumeros.Checked) chars += numeros;
+            if (checkBoxSimbolos.Checked) chars += simbolos;
 
-            StringBuilder contraseña = new StringBuilder();
-            for (int i = 0; i < length; i++)
+            // Validar que se haya seleccionado al menos una categoría de caracteres
+            if (string.IsNullOrEmpty(chars))
             {
-                contraseña.Append(chars[random.Next(chars.Length)]);
+                MessageBox.Show("Debe seleccionar al menos una categoría de caracteres para generar una contraseña.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxContraseña.Text = string.Empty;
+                return;
             }
 
-            textBoxContraseña.Text = contraseña.ToString();
+            // Validar que la longitud de la contraseña sea suficiente
+            int categoriasSeleccionadas = (checkBoxMinusculas.Checked ? 1 : 0) +
+                                          (checkBoxMayusculas.Checked ? 1 : 0) +
+                                          (checkBoxNumeros.Checked ? 1 : 0) +
+                                          (checkBoxSimbolos.Checked ? 1 : 0);
+
+            if (length < categoriasSeleccionadas)
+            {
+                MessageBox.Show("La longitud de la contraseña debe ser mayor o igual al número de categorías de caracteres seleccionado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                textBoxContraseña.Text = string.Empty;
+                return;
+            }
+
+            List<char> contraseña = new List<char>();
+
+            // Añadir al menos un carácter de cada categoría seleccionada
+            if (checkBoxMinusculas.Checked) contraseña.Add(minusculas[random.Next(minusculas.Length)]);
+            if (checkBoxMayusculas.Checked) contraseña.Add(mayusculas[random.Next(mayusculas.Length)]);
+            if (checkBoxNumeros.Checked) contraseña.Add(numeros[random.Next(numeros.Length)]);
+            if (checkBoxSimbolos.Checked) contraseña.Add(simbolos[random.Next(simbolos.Length)]);
+
+            // Rellenar con caracteres aleatorios de todas las categorías
+            int minPorCategoria = length / categoriasSeleccionadas;
+
+            foreach (var categoria in new[]
+            {
+                (checkBoxMinusculas.Checked, minusculas),
+                (checkBoxMayusculas.Checked, mayusculas),
+                (checkBoxNumeros.Checked, numeros),
+                (checkBoxSimbolos.Checked, simbolos)
+            })
+            {
+                if (categoria.Item1)
+                {
+                    for (int i = 0; i < minPorCategoria; i++)
+                    {
+                        contraseña.Add(categoria.Item2[random.Next(categoria.Item2.Length)]);
+                    }
+                }
+            }
+
+            // Mezclar orden de caracteres
+            contraseña = contraseña.OrderBy(c => random.Next()).ToList();
+            textBoxContraseña.Text = new string(contraseña.ToArray());
         }
 
         private void buttonGenerar_Click(object sender, EventArgs e)
         {
             GenerarContraseña();
+        }
+
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxContraseña_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
@@ -74,11 +136,11 @@ namespace GestorDeContraseñas
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.Cells[0].Value.ToString() == "******")
+                if (row.Cells[0].Value != null && row.Cells[0].Value.ToString() == "******")
                 {
                     row.Cells[0].Value = ObtenerContraseña(row.Index); // Método que obtiene la contraseña real
                 }
-                else
+                else if (row.Cells[0].Value != null)
                 {
                     row.Cells[0].Value = "******";
                 }
@@ -87,9 +149,20 @@ namespace GestorDeContraseñas
 
         private string ObtenerContraseña(int rowIndex)
         {
-            string[] lines = File.ReadAllLines(filePath);
-            string[] parts = lines[rowIndex].Split(new[] { "||" }, StringSplitOptions.None);
-            return Desencriptar(parts[0]);
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                if (rowIndex >= 0 && rowIndex < lines.Length)
+                {
+                    string[] parts = lines[rowIndex].Split(new[] { "||" }, StringSplitOptions.None);
+                    return Desencriptar(parts[0]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al obtener la contraseña: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return string.Empty;
         }
 
         private void GuardarContraseña(string contraseña, string tag)
@@ -155,5 +228,6 @@ namespace GestorDeContraseñas
             }
             return cipherText;
         }
+
     }
 }
